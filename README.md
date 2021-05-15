@@ -1,7 +1,7 @@
 # xrpl-account-index
 Gather XRP Ledger account information, distribute it over P2P for easy access by non rippled clients.
 
-Based off the following (Wallet Object Types and Resource Addressing)[https://github.com/XRPLF/XRPL-Standards/discussions/44]
+Based off the following [Wallet Object Types and Resource Addressing](https://github.com/XRPLF/XRPL-Standards/discussions/44)
 
 ## Information
 This is very alpha, and is subject to change at any time.
@@ -19,9 +19,7 @@ Currently indexing Testnet every 10 minutes, publishing discovered data.
 
 ## Indexing
 
- The script is currently indexing the following data.  
-
-Indexing the following:
+The script is currently indexing the following data:  
 ```ruby
     :: Service Discovery ::
     ipfs        :  697066733A               // IPFS Addr
@@ -45,7 +43,7 @@ Indexing the following:
     @xrp-ledger-tom :  407872702D6C65646765722D746F6D3A  // XRP Ledger TOML Object         
 ```
 
-meta.json file is updated to reflect indexing status, and links to data sources of intrest.
+meta.json file is updated to reflect indexing status, and links to data sources of interest.
 
 all non matching entries are deposited into the debug file
 ```ruby
@@ -55,4 +53,4 @@ all non matching entries are deposited into the debug file
 
 
 ## Contact 
- - Check back for updates or reach out to me on Twitter if you have questions @calcs9
+ - Check back for updates or reach out to me on Twitter if you have questions [ @calcs9 ](https://twitter.com/calcs9)
