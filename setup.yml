@@ -1,0 +1,38 @@
+# log settings for script
+logging:
+  logPath: index.log
+  logLevel: info
+  maxSize: 5242880
+  maxFiles: 5
+  colorize: true
+
+# You should run your own Rippled node when using this software!
+rippled:
+  host: 192.168.1.10
+  port: 6005
+  
+indexer:
+  filePath: records
+  # Seconds to update current ledger index (for logging)
+  freqIndexCheck: 120000
+  # Frequency to create indexed services from ledger and publish
+  createIndex: 600000
+  # Remove index files over X seconds, best to use createIndex X 5, retain ~5 copies
+  # Set in seconds
+  removeIndexes: 3000
+
+ipfsnode:
+  # assumes http to local host, not https or auth
+  apiHost: 127.0.0.1
+  apiPort: 5001
+  timeout: 2m
+  # will generate if it doesnt exist
+  ipnsKey: xrpl-account-index-test
+  ipnsLifetime: 10m
+  ipnsTTL: 10m
+  # during cleanup of pins, do you want to ignore any IPFS addresses?
+  ignorePins:
+    - QmNT6isqrhH6LZWg8NeXQYTD9wPjJo2BHHzyezpf9BdHbD
+    - QmZpS5KtwmZp9CnAz6jtXqJZfB21fPrUhSbcmnNTaQ87yi
+    - QmNmq3f8qD5VteZrzHytU9g9rv7k81PNaddFY1CKHUrFQp
+    - QmTasDnqxvq3KxPULh4aFPQi4gNpcrqxrgCJW6tbfBeoNM
