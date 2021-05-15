@@ -30,7 +30,7 @@ The script is currently indexing the following data:
     ipfs        :  697066733A               // IPFS Addr
     ilp         :  696C703A                 // ILP Addr
     http        :  687474703A               // HTTPS Addr
-    bith        :  626974683A               // Torren Addr
+    bith        :  626974683A               // Torrent Addr
     ftp         :  6674703A                 // FTP Addr
     callto      :  63616C6C746F3A           // Phone Addr
     mailto      :  6D61696C746F3A           // Email Addr
