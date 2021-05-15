@@ -8,7 +8,12 @@ This is very alpha, and is subject to change at any time.
 If you plan to run this service, you will require a dedicated Rippled server and a local IPFS node.
 
 
-Currently indexing Testnet every 10 minutes, publishing discovered data.
+Currently indexing Testnet every 10 minutes, publishing discovered data. 
+However this is development instance, will get moved soon. Please feel free to host your own instance and share your IPNS address.
+The more instances we have running, the better the service will be for distributed applications.
+
+Some links to access the data, with or without an local IPFS node:
+
  - /ipns/k2k4r8jzuhjc31n1f37iyhj4ka4nggz8pace0ho5korctclj7aqt8jxu
  - https://cloudflare-ipfs.com/ipns/k2k4r8jzuhjc31n1f37iyhj4ka4nggz8pace0ho5korctclj7aqt8jxu
  - https://ipfs.io/ipns/k2k4r8jzuhjc31n1f37iyhj4ka4nggz8pace0ho5korctclj7aqt8jxu
