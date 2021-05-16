@@ -14,12 +14,12 @@ rippled:
 indexer:
   filePath: records
   # Seconds to update current ledger index (for logging)
-  freqIndexCheck: 120000
+  freqIndexCheck: 180000
   # Frequency to create indexed services from ledger and publish
   createIndex: 600000
   # Remove index files over X seconds, best to use createIndex X 5, retain ~5 copies
   # Set in seconds
-  removeIndexes: 3000
+  removeIndexes: 2430
 
 ipfsnode:
   # assumes http to local host, not https or auth
@@ -28,8 +28,8 @@ ipfsnode:
   timeout: 2m
   # will generate if it doesnt exist
   ipnsKey: xrpl-account-index-test
-  ipnsLifetime: 10m
-  ipnsTTL: 10m
+  ipnsLifetime: 30m
+  ipnsTTL: 1h
   # during cleanup of pins, do you want to ignore any IPFS addresses?
   ignorePins:
     - QmNT6isqrhH6LZWg8NeXQYTD9wPjJo2BHHzyezpf9BdHbD

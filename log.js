@@ -12,7 +12,7 @@ try {
 } catch (error) {
     //Dies hard this way.. This is a major issue we just fail outright on
     console.log(`Error in log.js: ${error}`)
-    process.exit(-1);
+    process.exit(-1)
 }
 
 //Setup the Logger
@@ -29,9 +29,9 @@ const logs = createLogger({
         timestamp(),
         align(),
         printf((info) => {
-          const { timestamp, level, message, ...args} = info;
-          const ts = timestamp.slice(0, 19).replace('T', ' ');
-          return `${ts} [${level}]: ${message} ${Object.keys(args).length ? JSON.stringify(args, null, 2) : ''}`;
+          const { timestamp, level, message, ...args} = info
+          const ts = timestamp.slice(0, 19).replace('T', ' ')
+          return `${ts} [${level}]: ${message} ${Object.keys(args).length ? JSON.stringify(args, null, 2) : ''}`
         }),
       )
     }),
@@ -44,9 +44,9 @@ const logs = createLogger({
         timestamp(),
         align(),
         printf((info) => {
-          const { timestamp, level, message, ...args} = info;
-          const ts = timestamp.slice(0, 19).replace('T', ' ');
-          return `${ts} [${level}]: ${message} ${Object.keys(args).length ? JSON.stringify(args, null, 2) : ''}`;
+          const { timestamp, level, message, ...args} = info
+          const ts = timestamp.slice(0, 19).replace('T', ' ')
+          return `${ts} [${level}]: ${message} ${Object.keys(args).length ? JSON.stringify(args, null, 2) : ''}`
         }),
       )
     })
@@ -55,4 +55,4 @@ const logs = createLogger({
   exitOnError: false, // do not exit on handled exceptions
 });
 
-module.exports = logs;
+module.exports = logs

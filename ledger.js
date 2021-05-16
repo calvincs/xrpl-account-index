@@ -4,9 +4,8 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const fileSys = require('fs-extra');
-const path = require('path')
-const Yaml    = require('js-yaml');
-const { mainModule } = require('process');
+const path = require('path');
+const Yaml = require('js-yaml');
 const WebSocket = require('ws');
 const logs = require('./log');
 const { sep } = require('path');
@@ -20,7 +19,7 @@ try {
 } catch (error) {
     //Dies hard this way.. This is a major issue we just fail outright on
     console.log(`Error in log.js: ${error}`)
-    process.exit(-1);
+    process.exit(-1)
 }
 
 // Catch and display the errors nicely
@@ -31,29 +30,29 @@ function CatchError(err) {
       }
       if (err.stack) {
         logs.error('StackTrace:')
-        logs.error(err.stack);
+        logs.error(err.stack)
       }
     } else {
-      logs.error('error in CatchError:: argument is not an object');
+      logs.error('error in CatchError:: argument is not an object')
     }
     console.log("---exiting---")
     process.exit()
   }
 
 // Are we connected?
-let Connected = 0;
+let Connected = 0
 module.exports.isLedgerConnected = function(){
-    return Connected;
+    return Connected
 }
 
 // Ledger value? (pulled every X seconds)
-let LedgerIndex = 0;
+let LedgerIndex = 0
 module.exports.getLedgerIndex = function(){
-    return LedgerIndex;
+    return LedgerIndex
 }
 
 // Ledger State bucket
-let LedgerStateBucket = {};
+let LedgerStateBucket = {}
 
 // Make connection
 const ENDPOINT = `wss://${config.rippled.host}:${config.rippled.port}`
@@ -62,8 +61,8 @@ const WebService = new WebSocket(ENDPOINT)
 
 // Emitt event on ledger processing completion
 // - Make into class w/ features
-const Events = new events.EventEmitter();
-module.exports.Events = Events;
+const Events = new events.EventEmitter()
+module.exports.Events = Events
 
 // Message Router
 WebService.on('message', function incoming (data) {
@@ -100,7 +99,7 @@ WebService.on('open', function open () {
         Connected = 1
         logs.info('fetching latest ledger index value')
         GetLatestClosedLegder()
-        // -- TEST
+        // -- Start up, get latest ledger...
         FetchLedgerStats()
     } catch (error) {
         CatchError(error)
@@ -135,12 +134,12 @@ const GetLatestClosedLegder = function() {
         CatchError(error)
     }
 }
-module.exports.GetLatestClosedLegder = GetLatestClosedLegder;
+module.exports.GetLatestClosedLegder = GetLatestClosedLegder
 
 // Process the closed ledger stats from GetLastestClosedLedger
 const ProcessClosedLedgerStats = function(response) {
     try {
-        let data = response.result;
+        let data = response.result
         LedgerIndex = data.ledger_index
         logs.info(`[ClosedLedgerStats] -> Index: ${data.ledger_index} Validated: ${data.validated} Close time: ${data.ledger.close_time_human}`)
     } catch (error) {
@@ -152,9 +151,9 @@ const ProcessClosedLedgerStats = function(response) {
 // - Primarily looking at: Domain field for service discovery
 const ProcessLedgerStateData = function(response) {
     try {
-        let foundData = false;
-        let data = response.result;
-        let index = data.ledger_index;
+        let foundData = false
+        let data = response.result
+        let index = data.ledger_index
         // Ensure index is in LedgerStateBucket
         if (!LedgerStateBucket.hasOwnProperty(index)) {
             // Ensure ledger has been closed before processing it, must be valid
@@ -199,18 +198,18 @@ const ProcessLedgerStateData = function(response) {
 // Make a call(s) to rippled for data
 const FetchLedgerStats = function(index,marker) {
     try {
-        let ledgerIndex = index || null;
+        let ledgerIndex = index || null
         let request = {id: "state", command: "ledger_data", ledger_index: ledgerIndex, limit: 200000, binary: false}
-        let markPos = marker || null;
+        let markPos = marker || null
         if (markPos) {
-            request.marker = markPos;
+            request.marker = markPos
         }
         WebService.send(JSON.stringify(request))
     } catch (error) {
         CatchError(error)
     }
 }
-module.exports.FetchLedgerStats = FetchLedgerStats;
+module.exports.FetchLedgerStats = FetchLedgerStats
 
 
 // Process data into json files stored in the folder corr. to its index
@@ -298,22 +297,22 @@ const CreateLedgerIndexFiles = async function(index) {
         })
 
         //Ensure records path exists, else create it
-        let filePath = config.indexer.filePath + path.sep + `${index}` + path.sep;
-        !fileSys.existsSync(filePath) && fileSys.mkdirSync(filePath);
+        let filePath = config.indexer.filePath + path.sep + `${index}` + path.sep
+        !fileSys.existsSync(filePath) && fileSys.mkdirSync(filePath)
         logs.info(`created records destination: '${filePath}'`)
 
         //Write data to files
         Object.entries(output).forEach(async (entry) => {
             const [indexKey, values] = entry;
             let tmp = {}
-            tmp.index = index;
-            tmp.records = values;
-            tmp.prefix = indexKey;
+            tmp.index = index
+            tmp.records = values
+            tmp.prefix = indexKey
 
             //Give file a human readable name
             let fileType;
             Object.entries(services).forEach(entry => {
-                const [key, value] = entry;
+                const [key, value] = entry
                 if (value == indexKey) {
                     fileType = key;
                     return
@@ -328,7 +327,7 @@ const CreateLedgerIndexFiles = async function(index) {
         //Write the base header.js file for the index
         logs.info(`writing the header.json file for ${index} folder`)
         let fileName = filePath +'header.json'
-        let header = LedgerStateBucket[index].header;
+        let header = LedgerStateBucket[index].header
         await fileSys.writeFile(fileName, JSON.stringify(header, null, 2))
 
         //Remove the index from the list
@@ -336,7 +335,7 @@ const CreateLedgerIndexFiles = async function(index) {
         delete LedgerStateBucket[index]
 
         //Fire event, we are ready to process ledger index data
-        Events.emit('processedIndex', index, header);
+        Events.emit('processedIndex', index, header)
 
     } catch (error) {
         CatchError(error)
@@ -351,4 +350,4 @@ let CheckLedgerIndex = setInterval(async () => {
     } catch (error) {
         CatchError(error)
     }
-}, config.indexer.freqIndexCheck); //Will check every X milli seconds
+}, config.indexer.freqIndexCheck) //Will check every X milli seconds
