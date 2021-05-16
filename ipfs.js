@@ -189,6 +189,7 @@ const cleanPins = async function(keepPin) {
         if (!config.ipfsnode.ignorePins.includes(cid)){
           logs.info(`attempting to unpin: ${cid}, with epoch value of ${epoch}, it has expired`)
           ipfsClient.pin.rm(cid)
+          delete pinData[cid]
         } else {
           logs.info(`not removing pin ${cid}, as its in the ignorePins list configuration`)
         }
