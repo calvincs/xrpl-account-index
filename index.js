@@ -69,7 +69,7 @@ async function main() {
 
             //Clean up the records directory
             let removeInSeconds = config.indexer.removeIndexes
-            var cleaned = findRemoveSync(recordsDir, {age: {seconds: removeInSeconds},dir: '*'})
+            var cleaned = findRemoveSync(recordsDir, {age: {seconds: removeInSeconds},dir: '*',ignore:'readme.txt'})
             for (let value of Object.keys(cleaned)) {
                 logs.info(`removed aged directory: ${value}`)
             }
