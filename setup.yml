@@ -12,7 +12,10 @@ rippled:
   port: 6005
   
 indexer:
+  # Where do we want to store the records that are generated
   filePath: records
+  # Do we want to make a copy in our root file (this is nice for direct HTTP queries)
+  rootCopy: true
   # Seconds to update current ledger index (for logging)
   freqIndexCheck: 180000
   # Frequency to create indexed services from ledger and publish

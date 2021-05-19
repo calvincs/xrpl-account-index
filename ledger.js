@@ -229,10 +229,8 @@ const CreateLedgerIndexFiles = async function(index) {
         ws          :  57533A           // Web Socket
         @xnft       :  40786E66743A     // XRP based NFT Objects
         @xdns       :  4078646E733A     // XRP Name Resolution Object / Services
-        @xndxr      :  40786E6478723A   // Indexer Oject / Services (Find other public indexers)
-        @data       :  40646174613A     // Data blobs / strings
-        @xumm       :  4078756D6D3A     // Xumm Object / Services
-        @xapp       :  40786170703A     // Xapps Object / Services
+        @xndxr      :  40786E6478723A   // Indexer Oject / Services (Find othe
+                    return
         @xmplc      :  40786D706C633A   // @CloudXmpl Xmpl.Cloud Object / Services
         @xrp-ledger-tom :  407872702D6C65646765722D746F6D3A  // XRP Ledger TOML Object         
     */
@@ -322,6 +320,13 @@ const CreateLedgerIndexFiles = async function(index) {
             let fileName = filePath +`${fileType}.json`
             logs.info(`index ${index} writting ${fileName}`)
             await fileSys.writeFile(fileName, JSON.stringify(tmp))
+            // This provides an easy path for known objects being called via a HTTP or IPNS endpoint for existing issues.
+            // - More details are provided in the meta.json file however, including IPFS and IPNS paths
+            if (config.indexer.rootCopy) {
+                logs.info(`detected rootCopy was set true, copying ${fileName} to root directory of ${config.indexer.filePath}`)
+                let copyFilePath = config.indexer.filePath + path.sep + `${fileType}.json`
+                await fileSys.copy(fileName, copyFilePath, {preserveTimestamps: true, overwrite: true})
+            }
         });
 
         //Write the base header.js file for the index
